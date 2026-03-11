@@ -1,0 +1,798 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Best Car Sales - Your Dream Car Awaits</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: #f4f4f4;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        header {
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            color: white;
+            padding: 1rem 0;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        nav ul {
+            list-style: none;
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            align-items: center;
+        }
+
+        nav li {
+            margin: 0 15px;
+        }
+
+        nav a {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s;
+            padding: 5px 10px;
+            border-radius: 3px;
+        }
+
+        nav a:hover {
+            background: rgba(255,255,255,0.2);
+        }
+
+        .page {
+            display: none;
+            min-height: 100vh;
+            padding-top: 80px;
+        }
+
+        .page.active {
+            display: block;
+        }
+
+        .hero {
+            background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 600"><rect fill="%23ddd" width="1200" height="600"/><text x="50%" y="50%" font-size="24" fill="%23999" text-anchor="middle">Car Showroom Image</text></svg>');
+            background-size: cover;
+            background-position: center;
+            height: 500px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            text-align: center;
+        }
+
+        .hero h1 {
+            font-size: 3.5rem;
+            margin-bottom: 1rem;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+        }
+
+        .hero p {
+            font-size: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .btn {
+            background: #ff6b6b;
+            color: white;
+            padding: 12px 30px;
+            border: none;
+            border-radius: 25px;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .btn:hover {
+            background: #ff5252;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(255,107,107,0.4);
+        }
+
+        .car-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            padding: 40px 0;
+        }
+
+        .car-card {
+            background: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            transition: transform 0.3s;
+        }
+
+        .car-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .car-image {
+            height: 200px;
+            background: #ddd;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3rem;
+        }
+
+        .car-info {
+            padding: 20px;
+        }
+
+        .car-info h3 {
+            color: #1e3c72;
+            margin-bottom: 10px;
+        }
+
+        .price {
+            color: #ff6b6b;
+            font-size: 1.5rem;
+            font-weight: bold;
+            margin: 10px 0;
+        }
+
+        .features {
+            background: white;
+            padding: 40px 0;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+            margin-top: 30px;
+        }
+
+        .feature-card {
+            text-align: center;
+            padding: 20px;
+        }
+
+        .feature-icon {
+            font-size: 3rem;
+            margin-bottom: 15px;
+        }
+
+        .contact-form {
+            max-width: 600px;
+            margin: 40px auto;
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: 500;
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 1rem;
+        }
+
+        .testimonials {
+            background: #1e3c72;
+            color: white;
+            padding: 60px 0;
+        }
+
+        .testimonial-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-top: 30px;
+        }
+
+        .testimonial {
+            background: rgba(255,255,255,0.1);
+            padding: 25px;
+            border-radius: 10px;
+            text-align: center;
+        }
+
+        .testimonial-text {
+            font-style: italic;
+            margin-bottom: 15px;
+        }
+
+        .testimonial-author {
+            font-weight: bold;
+        }
+
+        .footer {
+            background: #2c3e50;
+            color: white;
+            text-align: center;
+            padding: 30px 0;
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+            margin-bottom: 20px;
+        }
+
+        .footer-section h3 {
+            margin-bottom: 15px;
+        }
+
+        .footer-section ul {
+            list-style: none;
+        }
+
+        .footer-section a {
+            color: #bdc3c7;
+            text-decoration: none;
+            line-height: 2;
+        }
+
+        .footer-section a:hover {
+            color: #ff6b6b;
+        }
+
+        h2 {
+            text-align: center;
+            margin: 30px 0;
+            color: #1e3c72;
+        }
+
+        .search-bar {
+            max-width: 600px;
+            margin: 20px auto;
+            display: flex;
+        }
+
+        .search-bar input {
+            flex: 1;
+            padding: 12px;
+            border: none;
+            border-radius: 25px 0 0 25px;
+            font-size: 1rem;
+        }
+
+        .search-bar button {
+            background: #ff6b6b;
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 0 25px 25px 0;
+            cursor: pointer;
+        }
+
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+            
+            .hero p {
+                font-size: 1.2rem;
+            }
+            
+            nav ul {
+                flex-direction: column;
+            }
+            
+            nav li {
+                margin: 5px 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <nav>
+            <ul>
+                <li><a href="#" onclick="showPage('home')">Home</a></li>
+                <li><a href="#" onclick="showPage('cars')">Our Cars</a></li>
+                <li><a href="#" onclick="showPage('features')">Features</a></li>
+                <li><a href="#" onclick="showPage('testimonials')">Testimonials</a></li>
+                <li><a href="#" onclick="showPage('contact')">Contact</a></li>
+                <li><a href="#" onclick="showPage('about')">About</a></li>
+                <li><a href="#" onclick="showPage('services')">Services</a></li>
+                <li><a href="#" onclick="showPage('financing')">Financing</a></li>
+                <li><a href="#" onclick="showPage('team')">Our Team</a></li>
+                <li><a href="#" onclick="showPage('faq')">FAQ</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <!-- Home Page -->
+    <div id="home" class="page active">
+        <div class="hero">
+            <div class="container">
+                <h1>Find Your Dream Car Today</h1>
+                <p>Quality cars at unbeatable prices</p>
+                <a href="#" onclick="showPage('cars')" class="btn">Browse Inventory</a>
+            </div>
+        </div>
+        <div class="container">
+            <h2>Featured Cars</h2>
+            <div class="car-grid">
+                <div class="car-card">
+                    <div class="car-image">🚗</div>
+                    <div class="car-info">
+                        <h3>Toyota Camry 2023</h3>
+                        <p>Comfortable sedan with excellent fuel economy</p>
+                        <div class="price">$28,999</div>
+                        <button class="btn">View Details</button>
+                    </div>
+                </div>
+                <div class="car-card">
+                    <div class="car-image">🚙</div>
+                    <div class="car-info">
+                        <h3>Honda CR-V 2023</h3>
+                        <p>Spacious SUV perfect for families</p>
+                        <div class="price">$32,999</div>
+                        <button class="btn">View Details</button>
+                    </div>
+                </div>
+                <div class="car-card">
+                    <div class="car-image">🚕</div>
+                    <div class="car-info">
+                        <h3>Tesla Model 3 2023</h3>
+                        <p>All-electric with autopilot capability</p>
+                        <div class="price">$45,999</div>
+                        <button class="btn">View Details</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Cars Page -->
+    <div id="cars" class="page">
+        <div class="container">
+            <h1>Our Complete Inventory</h1>
+            <div class="search-bar">
+                <input type="text" placeholder="Search cars by make, model, or price...">
+                <button>Search</button>
+            </div>
+            <div class="car-grid">
+                <div class="car-card">
+                    <div class="car-image">🚗</div>
+                    <div class="car-info">
+                        <h3>Ford Mustang 2023</h3>
+                        <p>Sporty coupe with powerful V8 engine</p>
+                        <div class="price">$36,999</div>
+                        <button class="btn">View Details</button>
+                    </div>
+                </div>
+                <div class="car-card">
+                    <div class="car-image">🚙</div>
+                    <div class="car-info">
+                        <h3>Chevrolet Silverado 2023</h3>
+                        <p>Reliable pickup truck for work or play</p>
+                        <div class="price">$38,999</div>
+                        <button class="btn">View Details</button>
+                    </div>
+                </div>
+                <div class="car-card">
+                    <div class="car-image">🚕</div>
+                    <div class="car-info">
+                        <h3>BMW X5 2023</h3>
+                        <p>Luxury SUV with premium features</p>
+                        <div class="price">$62,999</div>
+                        <button class="btn">View Details</button>
+                    </div>
+                </div>
+                <div class="car-card">
+                    <div class="car-image">🚗</div>
+                    <div class="car-info">
+                        <h3>Mazda CX-5 2023</h3>
+                        <p>Stylish crossover with great handling</p>
+                        <div class="price">$31,999</div>
+                        <button class="btn">View Details</button>
+                    </div>
+                </div>
+                <div class="car-card">
+                    <div class="car-image">🚙</div>
+                    <div class="car-info">
+                        <h3>Audi Q7 2023</h3>
+                        <p>Premium SUV with advanced technology</p>
+                        <div class="price">$58,999</div>
+                        <button class="btn">View Details</button>
+                    </div>
+                </div>
+                <div class="car-card">
+                    <div class="car-image">🚕</div>
+                    <div class="car-info">
+                        <h3>Mercedes C-Class 2023</h3>
+                        <p>Elegant sedan with luxury features</p>
+                        <div class="price">$48,999</div>
+                        <button class="btn">View Details</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Features Page -->
+    <div id="features" class="page">
+        <div class="container">
+            <h1>Why Choose Best Car Sales?</h1>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">✅</div>
+                    <h3>100% Certified</h3>
+                    <p>All our cars undergo rigorous inspection and certification process</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">💰</div>
+                    <h3>Best Prices</h3>
+                    <p>We offer competitive pricing with no hidden fees</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🛡️</div>
+                    <h3>Extended Warranty</h3>
+                    <p>Comprehensive warranty options for your peace of mind</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🔄</div>
+                    <h3>Easy Trade-In</h3>
+                    <p>Get top dollar for your old car with our hassle-free trade-in program</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🏆</div>
+                    <h3>Award-Winning Service</h3>
+                    <p>Recognized for excellence in customer satisfaction</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🚚</div>
+                    <h3>Free Delivery</h3>
+                    <p>We deliver your new car anywhere within 50 miles</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Testimonials Page -->
+    <div id="testimonials" class="page">
+        <div class="container">
+            <h1>Customer Testimonials</h1>
+            <div class="testimonial-grid">
+                <div class="testimonial">
+                    <div class="testimonial-text">"Best car buying experience ever! The staff was friendly and the prices were unbeatable."</div>
+                    <div class="testimonial-author">- Sarah Johnson</div>
+                </div>
+                <div class="testimonial">
+                    <div class="testimonial-text">"I found my dream car at Best Car Sales. Their financing options made it affordable."</div>
+                    <div class="testimonial-author">- Mike Thompson</div>
+                </div>
+                <div class="testimonial">
+                    <div class="testimonial-text">"Excellent customer service and follow-up. They truly care about their customers."</div>
+                    <div class="testimonial-author">- Emily Rodriguez</div>
+                </div>
+                <div class="testimonial">
+                    <div class="testimonial-text">"The trade-in value they offered was way better than other dealerships."</div>
+                    <div class="testimonial-author">- David Chen</div>
+                </div>
+                <div class="testimonial">
+                    <div class="testimonial-text">"Professional, honest, and transparent. Exactly what you want in a car dealer."</div>
+                    <div class="testimonial-author">- Lisa Anderson</div>
+                </div>
+                <div class="testimonial">
+                    <div class="testimonial-text">"My second purchase from Best Car Sales. They never disappoint!"</div>
+                    <div class="testimonial-author">- Robert Martinez</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Contact Page -->
+    <div id="contact" class="page">
+        <div class="container">
+            <h1>Contact Us</h1>
+            <div class="contact-form">
+                <form>
+                    <div class="form-group">
+                        <label>Full Name</label>
+                        <input type="text" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Email</label>
+                        <input type="email" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Phone</label>
+                        <input type="tel">
+                    </div>
+                    <div class="form-group">
+                        <label>Interested In</label>
+                        <select>
+                            <option>New Car Purchase</option>
+                            <option>Used Car Purchase</option>
+                            <option>Trade-In Inquiry</option>
+                            <option>Service Appointment</option>
+                            <option>General Inquiry</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Message</label>
+                        <textarea rows="5" required></textarea>
+                    </div>
+                    <button type="submit" class="btn">Send Message</button>
+                </form>
+            </div>
+            <div style="text-align: center; margin-top: 40px;">
+                <h3>Visit Our Showroom</h3>
+                <p>📍 123 Auto Drive, Car City, CC 12345</p>
+                <p>📞 (555) 123-4567</p>
+                <p>🕒 Mon-Sat: 9AM-8PM, Sun: 10AM-6PM</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- About Page -->
+    <div id="about" class="page">
+        <div class="container">
+            <h1>About Best Car Sales</h1>
+            <div style="max-width: 800px; margin: 30px auto; line-height: 1.8;">
+                <p>Founded in 2005, Best Car Sales has grown to become the leading car dealership in the region. Our commitment to honesty, transparency, and customer satisfaction has earned us numerous awards and loyal customers.</p>
+                
+                <h3 style="margin: 30px 0 15px; color: #1e3c72;">Our Mission</h3>
+                <p>To provide our customers with high-quality vehicles at fair prices, paired with exceptional customer service that exceeds expectations.</p>
+                
+                <h3 style="margin: 30px 0 15px; color: #1e3c72;">Our Values</h3>
+                <ul style="margin-left: 30px; margin-bottom: 20px;">
+                    <li><strong>Integrity:</strong> We believe in honest dealings and transparent pricing</li>
+                    <li><strong>Quality:</strong> Every car meets our strict quality standards</li>
+                    <li><strong>Customer Focus:</strong> Your satisfaction is our top priority</li>
+                    <li><strong>Community:</strong> We're proud to be a local business supporting our community</li>
+                </ul>
+                
+                <h3 style="margin: 30px 0 15px; color: #1e3c72;">Our Team</h3>
+                <p>Our experienced team brings over 100 years of combined automotive experience. From our sales professionals to our certified mechanics, everyone at Best Car Sales is dedicated to making your car buying experience exceptional.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Services Page -->
+    <div id="services" class="page">
+        <div class="container">
+            <h1>Our Services</h1>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">🔧</div>
+                    <h3>Auto Repair</h3>
+                    <p>Certified mechanics for all makes and models</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🎯</div>
+                    <h3>Wheel Alignment</h3>
+                    <p>Precision alignment for optimal performance</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🎨</div>
+                    <h3>Paint & Body</h3>
+                    <p>Expert collision repair and paint services</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🔍</div>
+                    <h3>Inspection</h3>
+                    <p>Comprehensive multi-point inspections</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🚗</div>
+                    <h3>Detailing</h3>
+                    <p>Professional interior and exterior cleaning</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">📊</div>
+                    <h3>Trade-In Appraisal</h3>
+                    <p>Fair market value for your vehicle</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Financing Page -->
+    <div id="financing" class="page">
+        <div class="container">
+            <h1>Financing Options</h1>
+            <div style="max-width: 800px; margin: 30px auto;">
+                <h3 style="color: #1e3c72; margin-bottom: 15px;">Flexible Payment Plans</h3>
+                <p>We offer various financing options to suit your budget:</p>
+                <ul style="margin: 20px 0; padding-left: 30px;">
+                    <li><strong>36-month:</strong> Lower monthly payments</li>
+                    <li><strong>48-month:</strong> Balanced payments and term</li>
+                    <li><strong>60-month:</strong> Lowest monthly payments</li>
+                    <li><strong>72-month:</strong> Extended term options</li>
+                </ul>
+                
+                <h3 style="color: #1e3c72; margin: 30px 0 15px;">First-Time Buyer Program</h3>
+                <p>No credit history? No problem! Our first-time buyer program helps you build credit while driving away in a reliable vehicle.</p>
+                
+                <h3 style="color: #1e3c72; margin: 30px 0 15px;">Pre-Approval</h3>
+                <p>Get pre-approved in minutes with our quick online application. Know your budget before you shop!</p>
+                
+                <div style="background: #e8f4f8; padding: 20px; border-radius: 8px; margin-top: 30px;">
+                    <h4 style="color: #1e3c72; margin-bottom: 10px;">💡 Did You Know?</h4>
+                    <p>Over 85% of our customers get approved for financing, even with less-than-perfect credit. We work with over 20 lenders to find the best rate for you.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Team Page -->
+    <div id="team" class="page">
+        <div class="container">
+            <h1>Meet Our Team</h1>
+            <div class="car-grid">
+                <div class="car-card">
+                    <div class="car-image">👨‍💼</div>
+                    <div class="car-info">
+                        <h3>John Smith</h3>
+                        <p>General Manager - 15 years experience</p>
+                        <p>Specializes in customer relations and fleet sales</p>
+                    </div>
+                </div>
+                <div class="car-card">
+                    <div class="car-image">👩‍💼</div>
+                    <div class="car-info">
+                        <h3>Maria Garcia</h3>
+                        <p>Sales Manager - 12 years experience</p>
+                        <p>Expert in luxury vehicle sales and financing</p>
+                    </div>
+                </div>
+                <div class="car-card">
+                    <div class="car-image">👨‍🔧</div>
+                    <div class="car-info">
+                        <h3>David Lee</h3>
+                        <p>Lead Mechanic - Master Technician</p>
+                        <p>Certified in all major brands and systems</p>
+                    </div>
+                </div>
+                <div class="car-card">
+                    <div class="car-image">👩‍💼</div>
+                    <div class="car-info">
+                        <h3>Sarah Johnson</h3>
+                        <p>Customer Service Manager</p>
+                        <p>Ensures your satisfaction after the sale</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- FAQ Page -->
+    <div id="faq" class="page">
+        <div class="container">
+            <h1>Frequently Asked Questions</h1>
+            <div style="max-width: 800px; margin: 30px auto;">
+                <h3 style="color: #1e3c72; margin-bottom: 10px;">Do you offer warranties?</h3>
+                <p>Yes! All our certified pre-owned vehicles come with at least a 3-month warranty, and we offer extended warranty options up to 5 years.</p>
+                
+                <h3 style="color: #1e3c72; margin: 25px 0 10px;">Can I return the car if I'm not satisfied?</h3>
+                <p>We offer a 7-day return policy with no questions asked. Your satisfaction is our priority.</p>
+                
+                <h3 style="color: #1e3c72; margin: 25px 0 10px;">Do you accept trade-ins?</h3>
+                <p>Absolutely! We offer competitive trade-in values and can appraise your vehicle on the spot.</p>
+                
+                <h3 style="color: #1e3c72; margin: 25px 0 10px;">What financing options are available?</h3>
+                <p>We offer financing through multiple lenders, including options for customers with various credit situations. We also accept cash and bank financing.</p>
+                
+                <h3 style="color: #1e3c72; margin: 25px 0 10px;">Can I test drive before buying?</h3>
+                <p>Yes! We encourage test drives to ensure the vehicle meets your needs. Bring your license and insurance.</p>
+                
+                <h3 style="color: #1e3c72; margin: 25px 0 10px;">Do you deliver vehicles?</h3>
+                <p>Yes, we offer free delivery within 50 miles of our dealership for all purchases.</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>Best Car Sales</h3>
+                    <p>Your trusted partner in finding the perfect vehicle</p>
+                </div>
+                <div class="footer-section">
+                    <h3>Quick Links</h3>
+                    <ul>
+                        <li><a href="#" onclick="showPage('home')">Home</a></li>
+                        <li><a href="#" onclick="showPage('cars')">Inventory</a></li>
+                        <li><a href="#" onclick="showPage('contact')">Contact</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h3>Services</h3>
+                    <ul>
+                        <li><a href="#" onclick="showPage('services')">Repair</a></li>
+                        <li><a href="#" onclick="showPage('financing')">Financing</a></li>
+                        <li><a href="#" onclick="showPage('team')">About Us</a></li>
+                    </ul>
+                </div>
+            </div>
+            <p>&copy; 2026 Best Car Sales. All rights reserved.</p>
+        </div>
+    </div>
+
+    <script>
+        function showPage(pageId) {
+            // Hide all pages
+            const pages = document.querySelectorAll('.page');
+            pages.forEach(page => page.classList.remove('active'));
+            
+            // Show selected page
+            document.getElementById(pageId).classList.add('active');
+            
+            // Scroll to top
+            window.scrollTo(0, 0);
+        }
+
+        // Smooth scrolling for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        });
+
+        // Form submission handler
+        document.querySelector('form')?.addEventListener('submit', function(e) {
+            e.preventDefault();
+            alert('Thank you for your message! We will contact you soon.');
+            this.reset();
+        });
+
+        // Search functionality
+        document.querySelector('.search-bar button')?.addEventListener('click', function() {
+            const searchTerm = document.querySelector('.search-bar input').value.toLowerCase();
+            if (searchTerm) {
+                alert(`Searching for: ${searchTerm}\nIn a real application, this would filter the car inventory.`);
+            }
+        });
+
+        // Enter key for search
+        document.querySelector('.search-bar input')?.addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                document.querySelector('.search-bar button').click();
+            }
+        });
+    </script>
+</body>
+</html>
